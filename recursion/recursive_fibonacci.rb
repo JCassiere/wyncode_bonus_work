@@ -1,10 +1,10 @@
 memo = {0 => 0, 1 => 1}
 def fibonacci(i, memo)
-	if memo.include?(i)
-		memo[i]
-	else
-		memo[i] = fibonacci(i-1, memo) + fibonacci(i-2, memo)
-	end
+  if memo.include?(i)
+    memo[i]
+  else
+    memo[i] = fibonacci(i-1, memo) + fibonacci(i-2, memo)
+  end
 end
 
 puts fibonacci(3, memo)
