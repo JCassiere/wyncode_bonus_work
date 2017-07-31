@@ -1,21 +1,17 @@
 class Node
-  attr_accessor :neighbors, :value
+  attr_accessor :value
+  attr_reader :neighbors
 
   def initialize(value)
     @value = value
-    #make neighbors a hash of neighbors with weights
-    #negative weights if directed and it's the end node
-    @neighbors = {}
+    @neighbors = []
+    @edges = []
   end
 
-  def add_neighbor(node, weight, dir=false)
-    unless @neighbors.keys.include?(node)
-      @neighbors[node] = weight
-      if dir
-        node.neighbors[self] = -1*weight
-      else
-        node.neighbors[self] = weight
-      end
+  def add_edge(edge, node)
+    unless @edges.include?(edge)
+      @edges << edge
+      @neighbors << node
     end
   end
 
@@ -40,7 +36,8 @@ class Edge
     #bidirectional if false
     #directed from start_node to end_node if true
     @dir = dir
-    start_node.add_neighbor(end_node, weight, dir)
+    @start_node.add_edge(self, end_node)
+    @end_node.add_edge(self, start_node)
   end
 
   def to_s
@@ -49,27 +46,13 @@ class Edge
 
 end
 
-class Graph
+class AdjacencyList
   attr_reader :nodes, :edges
 
   def initialize(nodes)
     #nodes will be an array of Node objects
     @nodes = nodes
     @edges = []
-    @nodes.each do |node|
-      node.neighbors.keys.each do |neighbor|
-        edge = check_for_edge(node, neighbor)
-        unless edge
-          if neighbor.neighbors[node] < 0
-            add_edge(node, neighbor, node.neighbors[neighbor], true)
-          elsif node.neighbors[neighbor] < 0
-            add_edge(neighbor, node, neighbor.neighbors[node], true)
-          else
-            add_edge(node, neighbor, node.neighbors[neighbor])
-          end
-        end
-      end
-    end
   end
 
   def adjacent(node_one, node_two)
@@ -77,7 +60,7 @@ class Graph
   end
 
   def neighbors(node)
-    node.neighbors.keys
+    node.neighbors
   end
 
   def add_node(node)
