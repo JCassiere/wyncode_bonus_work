@@ -11,7 +11,9 @@ class Node
   def add_edge(edge, node)
     unless @edges.include?(edge)
       @edges << edge
-      @neighbors << node
+      unless @neighbors.include?(node)
+        @neighbors << node
+      end
     end
   end
 
@@ -28,13 +30,16 @@ end
 
 class Edge
   attr_accessor :start_node, :end_node, :weight, :dir
+    #each edge is in a single direction
+    #when making a bidirectional edge, an edge will be made in each direction
+    #this will be done within the AdjacencyList class
+    #bidirectional if dir is false
+    #directed from start_node to end_node if dir is true
 
   def initialize(start_node, end_node, weight=0, dir=false)
     @start_node = start_node
     @end_node = end_node
     @weight = weight
-    #bidirectional if false
-    #directed from start_node to end_node if true
     @dir = dir
     @start_node.add_edge(self, end_node)
     @end_node.add_edge(self, start_node)
@@ -74,9 +79,9 @@ class AdjacencyList
   end
 
   def check_for_edge(node_one, node_two)
-    edge_nodes = [node_one, node_two]
+    # edge_nodes = [node_one, node_two]
     @edges.each do |edge|
-      if edge_nodes.include?(edge.start_node) && edge_nodes.include?(edge.end_node)
+      if (edge.start_node == node_one) && (edge.end_node == node_two)
         return edge
       end
     end
@@ -86,14 +91,21 @@ class AdjacencyList
   def add_edge(node_one, node_two, weight=0, dir=false)
     unless check_for_edge(node_one, node_two)
       @edges << Edge.new(node_one, node_two, weight, dir)
+      unless dir
+        add_edge(node_two, node_one, weight)
+      end
     end
   end
 
   def remove_edge(node_one, node_two)
   	edge = check_for_edge(node_one, node_two)
   	if edge
+      dir = edge.dir
 	  	@edges.delete(edge)
 	  	node_one.remove_neighbor(node_two)
+      unless dir
+        remove_edge(node_two, node_one)
+      end
 	  end
   end
 

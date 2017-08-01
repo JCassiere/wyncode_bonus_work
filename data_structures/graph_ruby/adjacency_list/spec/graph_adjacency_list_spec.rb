@@ -53,7 +53,7 @@ describe AdjacencyList do
 		end
 	end
 
-	context "adding an edge" do
+	context "adding a bidirectional edge" do
 
 		before (:each) do
 			@usa.add_edge(@cincinnati, @nashville, 300)
@@ -61,7 +61,7 @@ describe AdjacencyList do
 		end
 		
 		it "successfully adds an edge" do
-			expect(@usa.edges.length).to eq(1)
+			expect(@usa.edges.length).to eq(2)
 		end
 
 		it "can check if two nodes are adjacent" do
@@ -77,7 +77,10 @@ describe AdjacencyList do
 			expect(@usa.get_edge_weight(@cincinnati, @nashville)).to eq(300)
 		end
 
+  context "adding a directed edge"
 		it "successfully adds a directed edge" do
+			@usa.add_edge(@cincinnati, @nashville, 300)
+			@usa.add_node(@miami)
 			@usa.add_edge(@cincinnati, @miami, 1500, true)
 			expect(@usa.edges[-1].dir).to eq(true)
 		end
@@ -91,14 +94,19 @@ describe AdjacencyList do
 			@usa.add_edge(@cincinnati, @miami, 1500, true)
 		end
 
-		it "successfully removes an edge between 2 nodes" do
+		it "successfully removes a bidirectional edge" do
 			@usa.remove_edge(@cincinnati, @nashville)
 			expect(@usa.edges.length).to eq(1)
 		end
 
-		it "successfully removes a directed edge with args given in reverse" do
+		it "successfully removes a directed edge" do
+			@usa.remove_edge(@cincinnati, @miami)
+			expect(@usa.edges.length).to eq(2)
+		end
+
+		it "does not remove a directed edge with args given in reverse" do
 			@usa.remove_edge(@miami, @cincinnati)
-			expect(@usa.edges.length).to eq(1)
+			expect(@usa.edges.length).to eq(3)
 		end
 	end
 
