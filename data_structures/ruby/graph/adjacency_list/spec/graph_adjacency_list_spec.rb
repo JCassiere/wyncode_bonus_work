@@ -12,6 +12,7 @@ describe AdjacencyList do
 	context "node object created" do
 		it "is created with a value" do
 			expect(@cincinnati).to be_a(Node)
+			expect(@cincinnati.value).to eq("Cincinnati")
 		end
 
 		it "has no neighbors" do
@@ -65,8 +66,8 @@ describe AdjacencyList do
 		end
 
 		it "can check if two nodes are adjacent" do
-			expect(@usa.adjacent(@cincinnati, @nashville)).to eq(true)
-			expect(@usa.adjacent(@cincinnati, @miami)).to eq(false)
+			expect(@usa.adjacent?(@cincinnati, @nashville)).to eq(true)
+			expect(@usa.adjacent?(@cincinnati, @miami)).to eq(false)
 		end
 
 		it "can retrieve all nodes a specific node is connected to" do

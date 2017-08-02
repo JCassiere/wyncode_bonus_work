@@ -60,7 +60,7 @@ class AdjacencyList
     @edges = []
   end
 
-  def adjacent(node_one, node_two)
+  def adjacent?(node_one, node_two)
     node_one.neighbors.include?(node_two)
   end
 
