@@ -39,7 +39,7 @@ class HashTable
 			node.data[1] = value
 		else
 			get_bucket(key).push([key, value])
-			add_key(key)
+			@keys << key
 		end
 	end
 
@@ -50,18 +50,18 @@ class HashTable
 
 	def delete(key)
 		get_bucket(key).delete(get_node(key))
-		delete_key(key)
-	end
-
-	private
-
-	def add_key(key)
-		@keys << key
-	end
-
-	def delete_key(key)
 		@keys.delete(key)
 	end
+
+	# private
+
+	# def add_key(key)
+	# 	@keys << key
+	# end
+
+	# def delete_key(key)
+	# 	@keys.delete(key)
+	# end
 
 end
 
