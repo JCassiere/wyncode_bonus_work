@@ -31,7 +31,7 @@ class LinkedList
 		count
 	end
 
-	def add_next(next_node_data)
+	def push(next_node_data)
 		next_node = Node.new(next_node_data)
 		if @head
 			@last.next_node = next_node
@@ -41,6 +41,14 @@ class LinkedList
 			@last = next_node
 		end
 	end
+
+	def pop
+		return_data = @last.data
+		@last = self.search(self.traverse(self.length-2))
+		@last.next_node = nil
+		return_data
+	end
+
 
 	def search(data)
 		current_node = @head
@@ -52,32 +60,47 @@ class LinkedList
 
 	def insert_after(data, data_to_insert)
 		new_node = Node.new(data_to_insert)
-		insertion_node = search(data)
+		insertion_node = self.search(data)
 		new_node.next_node = insertion_node.next_node
 		insertion_node.next_node = new_node
 	end
 
-	def insert_head(new_head_data)
+	def shift(new_head_data)
 		new_head = Node.new(new_head_data)
 		new_head.next_node = @head
 		@head = new_head
 	end
 
-	def delete_after(data)
-		node = search(data)
-		node.next_node = node.next_node.next_node
+	def delete(data)
+		current_node = @head
+		until current_node.next_node == nil || current_node.next_node.data == data
+			current_node = current_node.next_node
+		end
+		if current_node.next_node
+			delete_node = current_node.next_node
+			current_node.next_node = delete_node.next_node
+			delete_node.next_node = nil
+			delete_node.data
+		elsif current_node == @head
+			@head = nil
+			@last = nil
+		else
+			nil
+		end
 	end
 
-	def delete_head
+	def unshift
+		unshift_data = @head.data
 		@head = @head.next_node
 		unless @head
 			@last = nil
 		end
+		unshift_data
 	end
 
-	def traverse(num_steps, start_node_data=@head.data)
-		node = search(start_node_data)
-		num_steps == 0 ? node.data : traverse(num_steps-1, node.next_node.data)
+	def traverse(index, start_node_data=@head.data)
+		node = self.search(start_node_data)
+		index == 0 ? node.data : traverse(index-1, node.next_node.data)
 	end
 
 end
