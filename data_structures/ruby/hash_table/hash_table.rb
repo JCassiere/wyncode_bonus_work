@@ -20,50 +20,37 @@ class HashTable
 		@table[hash_key(key)]
 	end
 
+	def get_node(key)
+		current_node = get_bucket(key).head
+		while current_node
+			if current_node.data[0] == key
+				return current_node
+			end
+			current_node = current_node.next_node
+		end
+		nil
+	end
+
 	def insert(key, value)
 		#don't check to see if @keys.include?(key)
 		#that would make this O(n) time instead of O(1)
-		bucket = get_bucket(key)
-		key_exists = false
-		current_node = bucket.head
-		if bucket.head
-			until key_exists || current_node == nil
-				if current_node.data[0] == key
-					key_exists = true
-					current_node.data[1] = value
-				else
-					current_node = current_node.next_node
-				end
-			end
-		end
-		unless key_exists
-			bucket.push([key, value])
+		node = get_node(key)
+		if node
+			node.data[1] = value
+		else
+			get_bucket(key).push([key, value])
 			add_key(key)
 		end
 	end
 
 	def search(key)
-		current_node = get_bucket(key).head
-		while current_node
-			if current_node.data[0] == key
-				break
-			end
-			current_node = current_node.next_node
-		end
-		current_node ? current_node.data[1] : nil
+		node = get_node(key)
+		node ? node.data[1] : nil
 	end
 
 	def delete(key)
-		bucket = get_bucket(key)
-		current_node = bucket.head
-		while current_node
-			if current_node.data[0] == key
-				bucket.delete(current_node.data)
-				delete_key(key)
-				break
-			end
-			current_node = current_node.next_node
-		end
+		get_bucket(key).delete(get_node(key))
+		delete_key(key)
 	end
 
 	private
