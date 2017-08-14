@@ -50,6 +50,10 @@ class MaxHeap
 		prev_root
 	end
 
+	def peek
+		@heap[0]
+	end
+
 
 	private
 
