@@ -11,6 +11,10 @@ describe MaxHeap do
 			p @max_heap.heap
 			expect(@max_heap.heap).to eq([10, 8, 9, 2, 1, 4])
 		end
+
+		it "can peek at the max value" do
+			expect(@max_heap.peek).to eq(10)
+		end
 	end
 
 	context "inserting a node" do
@@ -33,7 +37,6 @@ describe MaxHeap do
 		it "reorders the heap properly" do
 			expect(@max_heap.heap).to eq([9, 8, 4, 2, 1])
 		end
-
 	end
 
 end
@@ -48,6 +51,11 @@ describe MinHeap do
 		it "creates an ordered binary heap" do
 			expect(@min_heap.heap).to eq([1, 2, 8, 9, 4, 10])
 		end
+
+		it "can peek at the min value" do
+			expect(@min_heap.peek).to eq(1)
+		end
+
 	end
 
 	context "inserting a node" do
