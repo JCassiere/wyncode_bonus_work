@@ -1,5 +1,17 @@
 #****BFS through Direct Acyclic Graph Big O Analysis****
-#This algorithm loops through each
+#This algorithm loops through each vertex V of the graph
+#once via the 
+#
+#current = visited.deq
+#
+#line withing the until loop.  Then, since this is a directed
+#graph, the algorithm loops through each edge E exactly once.
+#It does this via the
+#
+#graph.neighbors(current).each do |neighbor|
+
+#line, where each neighbor represents a different edge.
+#Thus, this algorithm runs in O(V + E) time.
 
 require './directed_graph.rb'
 
