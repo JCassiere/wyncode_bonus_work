@@ -98,9 +98,9 @@ class LinkedList
 		unshift_data
 	end
 
-	def traverse(index, start_node_data=@head.data)
-		node = self.search(start_node_data)
-		index == 0 ? node.data : traverse(index-1, node.next_node.data)
+	def traverse(index, start_node_data=@head.data, start_node=nil)
+		node = start_node || self.search(start_node_data)
+		index == 0 ? node.data : traverse(index-1, node.next_node.data, node.next_node)
 	end
 
 end

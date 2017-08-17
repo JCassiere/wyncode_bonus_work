@@ -1,9 +1,9 @@
 class AdjacencyListHash
 
-  def initialize(*node_list)
+  def initialize(*nodes)
     #nodes will be an array of Node objects
     @nodes = {}
-    node_list.each do |node|
+    nodes.each do |node|
       @nodes[node] = []
     end
   end
